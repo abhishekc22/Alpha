@@ -1,0 +1,128 @@
+{% extends 'dashboard/adminbase.html' %}
+{% block content  %}
+<section class="content-main">
+    <div class="row">
+        <div class="col-6">
+            <div class="content-header">
+                <h2 class="content-title">Add New Product</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>1. General info</h6>
+                        </div>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for message in messages %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                    {% endfor %}
+                        <div class="col-md-9">
+                            <div class="mb-4">
+
+                                <label class="form-label">Product name</label>
+                                <input type="text" placeholder="Type here" class="form-control" name='Product_name'>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Description</label>
+                                <textarea placeholder="Type here" class="form-control" rows="4"name='product_description'></textarea>
+                            </div>
+                            {% comment %} <div class="mb-4">
+                                <label class="form-label">Brand name</label>
+                                <select class="form-select">
+                                    <option> Adidas </option>
+                                    <option> Nike </option>
+                                    <option> Puma </option>
+                                </select>
+                            </div> {% endcomment %}
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <hr class="mb-4 mt-0">
+                    <div class="row">
+                        <div class="col-md-9">
+                            {% comment %} <div class="mb-4">
+                                {% for i in cateogaries %}
+                                <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                    <input class="form-check-input" checked="" name="product_category" type="radio">
+                                    <span class="form-check-label"> <option value="{{i.id}}">{{ i.cateogary_name }}</option></span>
+
+                                </label>
+                                {% endfor %}
+                            </div> {% endcomment %}
+                            <div class="mb-4">
+                                <h6>4. Category</h6>
+
+                        
+                                
+                                <select class="form-select" name="product_category" required>
+                                    {% for i in cateogaries %}
+                                    <option value="{{i.id}}">{{ i.cateogary_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                
+                            </div>
+                            <div class="mb-4">
+                                <h6 >5. brand</h6>
+                               
+                                <select class="form-select" name="product_brand" required>
+                                    {% for i in brands %}
+                                    <option value="{{i.id}}">{{ i.brand_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                
+                            </div>
+                            <div class="mb-4">
+                                <h6 >6.offer</h6>
+                               
+                                <select class="form-select" name="offer" required>
+                                    {% for i in offer %}
+                                    <option value="{{i.id}}">{{ i.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                
+                            </div>
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <hr class="mb-4 mt-0">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>7. Image  1</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <input class="form-control" type="file" name='product_image1' accept="image/*">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h6>8. Image 2</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <input class="form-control" type="file" name='product_image2' accept="image/*">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h6>9. Image 3</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <input class="form-control" type="file" name='product_image3' accept="image/*">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save</button>
+                    </div>
+                </form>  <!-- .row end// -->
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+</section>
+{% endblock content %}

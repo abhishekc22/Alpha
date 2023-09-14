@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block  content  %}
+<head>
+    <title>Signup - OTP Verification</title>
+</head>
+<form action="/verify_otp" method="post">
+  <div class="col-md-12 form-group p_star">
+     <input type="text" class="form-control" id="otp" required>
+     <input type="submit" value="Verify OTP"> 
+    </div>
+</form>   
+{% endblock content %}

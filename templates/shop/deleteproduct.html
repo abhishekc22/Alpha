@@ -1,0 +1,18 @@
+<!-- delete_product.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <h1>Delete Product</h1>
+    <p>Are you sure you want to delete "{{ product.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ product.pk }}">
+        <input type="submit" value="Confirm Delete">
+    </form>
+     <!-- Replace 'product_list' with the URL name of your product list view -->
+</body>
+</html>

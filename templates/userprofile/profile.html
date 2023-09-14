@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main>
+    <!--? Hero Area Start-->
+    <div class="slider-area ">
+        <div class="single-slider slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2> user profile</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--? Hero Area End-->
+    <!-- ================ contact section start ================= -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="contact-title"> profile</h2>
+                </div>
+                <div class="col-lg-8">
+                  <form class="form-contact contact_form" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input class="form-control valid" name="username" type="text" value="{{ user_profile.username }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control valid" name="email" type="email"  value="{{ user_profile.email }}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <button type="submit" class="button button-contactForm boxed-btn">Confirm</button>
+                    </div>
+                </form>
+                
+                    <br>
+                </div>
+                <div class="col-lg-3 offset-lg-1">
+                    <div class="media contact-info">
+                        <span class="contact-info__icon"><i class="ti-home"></i></span>
+                        <div class="media-body">
+                            <h3>Buttonwood, California.</h3>
+                            <p>Rosemead, CA 91770</p>
+                        </div>
+                    </div>
+                    <div class="media contact-info">
+                        <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                        <div class="media-body">
+                            <h3>+1 253 565 2365</h3>
+                            <p>Mon to Fri 9am to 6pm</p>
+                        </div>
+                    </div>
+                    <div class="media contact-info">
+                        <span class="contact-info__icon"><i class="ti-email"></i></span>
+                        <div class="media-body">
+                            <h3>support@colorlib.com</h3>
+                            <p>Send us your query anytime!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================ contact section end ================= -->
+</main>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <section class="confirmation_part section_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-lx-4">
+        {% comment %} {% for i in neworder %} {% endcomment %}
+           {% comment %}<div class="single_confirmation_details">
+            <h4>order info</h4>
+            <ul>
+              <li>
+                <p>order number</p><span>: {{neworder.tracking_no }}</span>
+              </li>
+              <li>
+                <p>date</p><span>: {{neworder.created_at }}</span>
+              </li>
+              <li>
+                <p>total</p><span>: {{ neworder.toatal_price }}</span>
+              </li>
+              <li>
+                <p>payment methord</p><span>: {{neworder.payment_mode}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>Billing Address</h4>
+            <ul>
+              <li>
+                <p>name</p><span>: {{neworder.address.first_name}}</span>
+              </li>
+              <li>
+                <p>aadress</p><span>: {{neworder.address.address}}</span>
+              </li>
+              <li>
+                <p>city</p><span>: {{neworder.address.city}}</span>
+              </li>
+              <li>
+                <p>country</p><span>: {{neworder.address.country}}</span>
+              </li>
+              <li>
+                <p>postcode</p><span>: {{neworder.address.pincode}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        {% comment %} {% endfor %} {% endcomment %}
+        {% comment %} <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>shipping Address</h4>
+            <ul>
+              <li>
+                <p>Street</p><span>: 56/8</span>
+              </li>
+              <li>
+                <p>city</p><span>: Los Angeles</span>
+              </li>
+              <li>
+                <p>country</p><span>: United States</span>
+              </li>
+              <li>
+                <p>postcode</p><span>: 36952</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="order_details_iner">
+            <h3>Order Details</h3>
+            <table class="table table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col" colspan="2">Product</th>
+                  <th scope="col">colour</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in  order %}
+                <tr>
+                  <th colspan="2"><span>{{ i.product.product_name }}</span></th>
+                  <th>{{ i.variation.colour}}</th>
+                  <th>{{ i.qunadity}}</th>
+                  <th> <span>{{i.sub_total}}</span></th>
+                </tr>
+                {% endfor %}
+              </tbody>
+              <tr>
+                <th colspan="4">shipping</th>
+                <th> <span>{{shipping}}</span></th>
+              </tr> 
+              <tr>
+                <th colspan="4">GRAND TOTAL</th>
+                <th><span>{{grand_total}}</span></th>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ </main>
+{% endblock content %} {% endcomment %}

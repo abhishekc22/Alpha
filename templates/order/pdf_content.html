@@ -1,0 +1,35 @@
+
+<style>
+    /* Add your CSS styles here */
+    body {
+        font-family: Arial, sans-serif;
+    }
+    h2 {
+        font-size: 20px;
+        color: #333;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 10px;
+    }
+    img {
+        max-width: 100px;
+        height: auto;
+    }
+</style><h2>order details</h2>
+<ul>
+    <li>Product Name: {{ products }}</li>
+    <li>Product Price: {{ price }}</li>
+    <li>Quantity: {{ quantity }}</li>
+    <li><img src="{{ ord.product.image1.url }}" alt=""></li>
+    <li>Color: {{ ord.variation.colour }}</li>
+    <li>Address: {{ ord.order.address.address }}</li>
+    <li>Name: {{ ord.order.address.first_name }}</li>
+    <li>paymentmode: {{ ord.order.payment_mode }}</li>
+    <li>status: {{ ord.order.status }}</li>
+    <li>tracking number: {{ ord.order.tracking_no }}</li>
+    <li>order confirmed date: {{ ord.order.created_at }}</li>
+</ul>

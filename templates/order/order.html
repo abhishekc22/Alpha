@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block content%}
+ <main>
+  <!-- Hero Area Start-->
+  <div class="slider-area ">
+      <div class="single-slider slider-height2 d-flex align-items-center">
+          <div class="container">
+              <div class="row">
+                  <div class="col-xl-12">
+                      <div class="hero-cap text-center">
+                          <h2>Confirmation</h2>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!--================ confirmation part start =================-->
+  <section class="confirmation_part section_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="confirmation_tittle">
+            <span>Thank you. Your order has been received.</span>
+          </div>
+        </div>
+        <div class="col-lg-6 col-lx-4">
+        {% comment %} {% for i in neworder %} {% endcomment %}
+          <div class="single_confirmation_details">
+            <h4>order info</h4>
+            <ul>
+              <li>
+                <p>order number</p><span>: {{neworder.tracking_no }}</span>
+              </li>
+              <li>
+                <p>date</p><span>: {{neworder.created_at }}</span>
+              </li>
+              <li>
+                <p>total</p><span>: {{ neworder.toatal_price }}</span>
+              </li>
+              <li>
+                <p>mayment methord</p><span>: {{neworder.payment_mode}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>Billing Address</h4>
+            <ul>
+              <li>
+                <p>name</p><span>: {{neworder.address.first_name}}</span>
+              </li>
+              <li>
+                <p>aadress</p><span>: {{neworder.address.address}}</span>
+              </li>
+              <li>
+                <p>city</p><span>: {{neworder.address.city}}</span>
+              </li>
+              <li>
+                <p>country</p><span>: {{neworder.address.country}}</span>
+              </li>
+              <li>
+                <p>postcode</p><span>: {{neworder.address.pincode}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        {% comment %} {% endfor %} {% endcomment %}
+        <div class="col-lg-6 col-lx-4">
+          <div class="single_confirmation_details">
+            <h4>shipping Address</h4>
+            <ul>
+              <li>
+                <p>Street</p><span>: 56/8</span>
+              </li>
+              <li>
+                <p>city</p><span>: Los Angeles</span>
+              </li>
+              <li>
+                <p>country</p><span>: United States</span>
+              </li>
+              <li>
+                <p>postcode</p><span>: 36952</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="order_details_iner">
+            <h3>Order Details</h3>
+            <table class="table table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col" colspan="2">Product</th>
+                  <th scope="col">colour</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in  order %}
+                <tr>
+                  <th colspan="2"><span>{{ i.product.product_name }}</span></th>
+                  <th>{{ i.variation.colour}}</th>
+                  <th>{{ i.qunadity}}</th>
+                  {% if i.product.offerr and i.product.offerr.name != "none"  %}
+                    <th> <span>{{i.sub_total_with_offer}}</span></th>
+                  {% elif i.product.cateogary.offerr  and i.product.cateogary.offerr.name != "none"%}
+                    <th> <span>{{i.sub_total_with_offer_category}}</span></th>
+                  {% else %}
+                    <th> <span>{{i.sub_total}}</span></th>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+              <tr>
+                <th colspan="4">shipping</th>
+                <th> <span>{{shipping}}</span></th>
+              </tr> 
+              <tr>
+                <tr>
+                  <th colspan="4">coupon</th>
+                  <th> <span>{{coupon_discount}}</span></th>
+                </tr> 
+                <tr>
+                <th colspan="4">GRAND TOTAL</th>
+                <th><span>{{full_total}}</span></th>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ </main>
+{% endblock content%}

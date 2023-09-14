@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center"> <!-- Center the content -->
+        <div class="col-lg-8">
+            <div class="order_box">
+                <h2>My Order</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Price</th>
+                            <th>Quantity</th>
+                            <th>Image</th>
+                            <th>Colour</th>
+                            <th>Address</th>
+                            <th> user Name</th>
+                            <th> Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order_items %}
+                            <tr>
+                                <td>{{ item.product.product_name }}</td>
+                                {% if item.product.offerr  and  item.product.offerr.name != "none"%}
+                                <td>{{ item.sub_total_with_offer}}</td>
+                                {% elif item.product.cateogary.offerr and item.product.cateogary.offerr.name != "none" %}
+                                <td>{{ item.sub_total_with_offer_category}}</td>
+                                {% else %}
+                                <td>{{ item.sub_total}}</td>
+                                {% endif %}
+                                <td>{{ item.qunadity }}</td>
+                                <td>
+                                    <div style="width: 60px;" class="overflow-hidden">
+                                        <img class="w-100" src="{{ item.product.image1.url }}" alt=""
+                                            onerror="this.onerror=null; this.src='/static/placeholder-image.png';">
+                                    </div>
+                                </td>
+                                <td>{{ item.variation.colour }}</td>
+                                <td>{{ item.order.address.address }}</td>
+                                <td>{{ item.order.address.first_name }}</td>
+                                <td>
+                                <div class="text-center mt-3">
+                                <a href="{% url 'download_pdf' item.id %}" class="btn_4" target="_blank">Download PDF</a>
+                                </div>
+                            </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

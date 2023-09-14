@@ -1,0 +1,74 @@
+{% extends 'dashboard/adminbase.html' %}
+{% block content  %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">users list</h2>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 col-md-6 me-auto">
+                    <input type="text" placeholder="Search..." class="form-control" />
+                </div>
+                <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                        <option>Status</option>
+                        <option>Active</option>
+                        <option>Disabled</option>
+                        <option>Show all</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#ID</th>
+                            <th scope="col">username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user  in users %}
+                        <tr>
+                            <td> {{user.id}} </td>
+                            <td><b>{{user.username}}</b></td>
+                            <td>{{user.email}}</td>
+
+                            {% if user.is_superuser %}
+
+                            {% else %}
+                                {% if user.is_active %}
+                                  <td>active</td>
+                                <td><a href="{% url  'userblock' user.id  %}" class="btn btn-md rounded font-sm"  role="button">blockuser</a></td>
+                                {% else %}
+                                <td>Nonactive</td>
+                               <td> <a href="{% url 'userblock' user.id  %}" class="btn btn-md rounded font-sm"  role="button">unblockuser</a></td>
+                                {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+     
+    </div>
+</section>
+{% endblock content  %}    
+   
+
+
+
+    
+        </div>
+        <!-- dropdown //end -->
+    </td>

@@ -1,0 +1,118 @@
+{% extends 'dashboard/adminbase.html' %}
+{% block content %}
+<section class="content-main">
+    <div class="row">
+        <div class="col-6">
+            <div class="content-header">
+                <h2 class="content-title">Edit Product</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>1. General info</h6>
+                        </div>
+                        <form method="POST" action="{% url 'edit_product' pro.id  %}" enctype="multipart/form-data">
+                          {% csrf_token %}
+                            {% for message in messages %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <label class="form-label">Product name</label>
+                                    <input type="text" placeholder="Product name" class="form-control" name="Product_name" value="{{ pro.product_name }}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <textarea placeholder="Product description" class="form-control" rows="4" name="product_description"value="{{ pro.description }}"></textarea>
+                                </div>
+                            </div> <!-- col.// -->
+                            <hr class="mb-4 mt-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>4. Category</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <select class="form-select" name="product_category" required>
+                                            {% for category in cateogaries %}
+                                                <option value="{{ category.id }}" {% if pro.cateogary.id == category.id %} selected {% endif %}>{{ category.cateogary_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6>5. brand</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <select class="form-select" name="product_brand" required>
+                                            {% for bran in brand %}
+                                                <option value="{{ bran.id }}" {% if pro.brand.id == brand.id %} selected {% endif %}>{{ bran.brand_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6>6. offer</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <select class="form-select" name="offer" required>
+                                            {% for i in offer %}
+                                                <option value="{{ i.id }}" {% if pro.offerr.id == i.id %} selected {% endif %}>{{ i.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div> <!-- row.// -->
+                            <hr class="mb-4 mt-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>7.Image 1</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <input class="form-control" type="file" name="product_image1" accept="image/*"  value="{{ pro.image1.url}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>8. Image 2</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <input class="form-control" type="file" name="product_image2" accept="image/*" value="{{ pro.image2.url}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h6>9. Image 3</h6>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="mb-4">
+                                        <input class="form-control" type="file" name="product_image3" accept="image/*" value="{{ pro.image3.url}}">
+                                    </div>
+                                </div>
+                            </div>     
+                            <button type="submit" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save</button>
+                        </form> <!-- .row end// -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+
+

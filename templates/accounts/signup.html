@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block  content  %}
+<main>
+    <!-- Hero Area Start-->
+    {% comment %} <div class="slider-area ">
+        <div class="single-slider slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+    <!-- Hero Area End-->
+    <!--================login_part Area =================-->
+
+    {% if otp %}
+    <section class="login_part section_padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <div class="login_part_form">
+                        <div class="login_part_form_iner">
+                            <div class="hero-cap text-center">
+                            <h2>Signup</h2></div>
+                            <h3>Welcome to alpha diamond</h3>
+                            <h4>Create an Account</h4>
+                            <form class="row contact_form" action="{% url 'signup' %}" method="POST" novalidate="novalidate">
+                                {% csrf_token %}
+                                {% for message in messages %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                {% endfor %}
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="username" name="username" value="{{ pre_username }}"
+                                        placeholder="{{ pre_username }}" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="firstname" name="firstname" value="{{ pre_firstname }}"
+                                        placeholder="{{ pre_firstname }}" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="lastname" name="lastname" value="{{ pre_lastname }}"
+                                        placeholder="{{ pre_lastname }}" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="password" class="form-control" id="password1" name="password1" value="{{ pre_password1 }}"
+                                        placeholder="{{ pre_password1 }}" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="password" class="form-control" id="password2" name="password2" value="{{ pre_password2 }}"
+                                        placeholder="{{ pre_password2 }}" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ pre_email }}"
+                                        placeholder="{{ pre_email }}" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <button type="submit" value="submit" class="btn_3">
+                                        Sign Up
+                                    </button>
+                                    <a class="lost_pass" href="{% url 'userlogin' %}">I already have an account</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <section class="login_part section_padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <div class="login_part_form">
+                        <div class="login_part_form_iner">
+                            <h3>Welcome to alpha diamond</h3>
+                            <h4>Create an Account</h4>
+                            <form class="row contact_form" action="{% url 'signup' %}" method="POST" novalidate="novalidate">
+                                {% csrf_token %}
+                                
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="username" name="username" value="{{ pre_username }}"
+                                        placeholder="Username" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="firstname" name="firstname" value="{{ pre_firstname }}"
+                                        placeholder="First Name" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="text" class="form-control" id="lastname" name="lastname" value="{{ pre_lastname }}"
+                                        placeholder="Last Name" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="password" class="form-control" id="password1" name="password1" value="{{ pre_password1 }}"
+                                        placeholder="Password" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="password" class="form-control" id="password2" name="password2" value="{{ pre_password2 }}"
+                                        placeholder="Confirm Password" required>
+                                </div>
+                                <div class="col-md-12 form-group p_star">
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ pre_email }}"
+                                        placeholder="Email" required>
+                                </div>
+                                {% for message in messages %}
+            
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                {% endfor %}
+                                <div class="col-md-12 form-group">
+                                    <button type="submit" value="submit" class="btn_3">
+                                        Sign Up
+                                    </button>
+                                    <a class="lost_pass" href="{% url 'userlogin' %}">I already have an account</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}   
+</main> 
+{% endblock content %}

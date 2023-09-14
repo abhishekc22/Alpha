@@ -1,0 +1,156 @@
+{% extends 'dashboard/adminbase.html'%}
+
+{% block content  %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order List</h2>
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search order ID" class="form-control bg-white" />
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 col-md-6 me-auto">
+                    <input type="text" placeholder="Search..." class="form-control" />
+                </div>
+                <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                        <option>Status</option>
+                        <option>Active</option>
+                        <option>Disabled</option>
+                        <option>Show all</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        <tr>
+                            <th>#ID</th>
+                            <th scope="col">username</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                            
+                            {% comment %} <th scope="col" class="text-end">Action</th> {% endcomment %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in order %}
+                        <tr>
+                            <td>{{i.id}}</td>
+                            <td><b>{{i.user.username}}</b></td>
+                            <td>{{i.created_at}}</td>
+                            <td>
+                                    {% if i.status == 'Pending' %}
+                                       <span class="badge rounded-pill alert-warning">{{ i.status }}</span>
+                                   {% elif i.status == 'Out For Shipping' %}
+                                       <span class="badge rounded-pill alert-warning">{{ i.status }}</span>
+                                   {% elif i.status == 'Completed' %}
+                                       <span class="badge rounded-pill alert-success">{{i.status }}</span>
+                                   {% elif i.status == 'Cancelled' %}
+                                       <span class="badge rounded-pill alert-danger">{{i.status }}</span>
+                                   {% endif %}
+                               </td>
+
+                               <td>
+                    {% if i.status != 'Cancelled' and i.status != 'Completed' %}
+                        <div class="dropdown">
+                                   <button class="btn btn-sm font-sm rounded btn-brand dropdown-toggle" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                       <i class="material-icons md-edit"></i> Change Status
+                                   </button>
+                            <ul class="dropdown-menu dropdown-menu-sm" aria-labelledby="statusDropdown">
+                                {% for choice in i.order_status %}
+                                    {% if choice.0 != order.status %}
+                                        <li>
+                                            <form action="{% url 'order_status' i.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="new_status" value="{{ choice.0 }}">
+                                                <button type="submit" class="dropdown-item">{{ choice.1 }}</button>
+                                            </form>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% comment %} {% if i.status != 'Cancelled' and i.status != 'Completed' %}
+                    <a href="" class="btn btn-lg font-sm rounded btn-brand" style="background-color: red; color: white;" onclick="return confirm('Are you sure you want to cancel this order?');">
+                        <i class="material-icons md-delete_forever"></i> Cancel Order
+                    </a>
+                    {% endif %} {% endcomment %}
+                    </td>
+                    <td>
+                        <a class="btn_5" href="{% url 'admin_order_view' i.id %}">view</a>
+                    </td>
+                </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+       </div>
+    </div>
+<!-- table-responsive //end -->
+    <div>
+<!-- card-body end// -->
+    </div>
+<!-- card end// -->
+    </section>
+{% endblock content %}
+
+
+
+
+
+
+
+
+{% comment %} 
+                                <form method="POST" action="{%url 'order_status' i.id %}">
+                                    {% csrf_token %}
+                                    <select class="btn btn-md rounded font-sm" value="{{i.id}}" name="new_status">
+                                        <option value="delivered">Pending</option>
+                                        <option value="orderplaced">Out For Shipping</option>
+                                        <option value="shipped">Completed</option>
+                                        <option value="shipped">Cancelled</option>
+                                    </select>
+                                    <button type="submit" class="btn">Update</button>
+                                </form>
+                            </td>
+                           
+                            {% comment %} <td class="text-end">
+                                <a href="#" class="btn btn-md rounded font-sm">block</a>
+                                 <div class="dropdown">
+                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#">View detail</a>
+                                        <a class="dropdown-item" href="#">Edit info</a>
+                                        <a class="dropdown-item text-danger" href="#">Delete</a>
+                                    </div>
+                                </div> 
+                                <!-- dropdown //end -->
+                            </td> {% endcomment %}
+                        {% comment %} </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- table-responsive //end -->
+        </div>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+ </section>
+{% endblock content %} {% endcomment %} 

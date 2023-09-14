@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content%}
+ <main>
+  <!-- Hero Area Start-->
+  <div class="slider-area ">
+      <div class="single-slider slider-height2 d-flex align-items-center">
+          <div class="container">
+              <div class="row">
+                  <div class="col-xl-12">
+                      <div class="hero-cap text-center">
+                          <h2>Order details</h2>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!--================ confirmation part start =================-->
+  <section class="content-main">
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+
+                            <th scope="col">order id</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">cod/RAY pay</th>
+                            <th scope="col">date</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in  order %}
+                        <tr>
+                            <td>{{c.id}}</td>
+                            <td><b>{{c.status}}</b></td>
+                            <td><b>{{c.payment_mode}}</b></td>
+                            <td><b>{{c.created_at}}</b></td>
+
+                            <td class="text-end">
+                                {% if c.status == 'Pending' or c.status == 'Out For Shipping' %}                               
+                                    <a href="{% url 'ordercancell' c.id %}" class="btn btn-md rounded font-sm">Cancel</a>
+                                {% endif %}
+                            </td>
+
+                            {% if c.status != 'Cancelled' %}   
+                            <td><a href="{% url 'user_order_view' c.id %}" class="btn_4 ">view</a></td>
+                            {% endif %} 
+                            {% comment %} <td class="text-end">
+                                <a href="#"class="btn btn-md rounded font-sm ">view</a>           
+                            </td> {% endcomment %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- table-responsive //end -->
+        </div>
+        <!-- card-body end// -->
+    </div>
+</section>
+{% endblock content%}

@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block content %}
+ <main>
+    <!-- Hero Area Start-->
+    <div class="slider-area ">
+        <div class="single-slider slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Checkout</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================Checkout Area =================-->
+    <section class="checkout_area section_padding">
+      <div class="container">
+        <div class="billing_details">
+          <div class="row">
+            <div class="col-lg-8"> 
+              <h3>Billing Details</h3>
+              <a class="tp_btn" href="{%url 'add_address' %}">CREATE ADDRESS</a>
+              <br>
+              <br> 
+              <br>
+              <br> 
+              <div class="tab-content" id="nav-tabContent">
+                <!-- card one -->
+              <form method= 'POST' action="{%url 'place_order' %}">
+  {% csrf_token %}
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row">
+                
+                       {% for i in userlist  %}
+            
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                            <div class="single-popular-items mb-50 text-center">
+                                <div class="popular-caption">
+                                  <input type="radio"  name='address' value="{{ i.id }}">
+                                    </h3>NAME:{{ i.first_name }}</h3>
+                                    <br>
+                                    <span>USER:{{ i.user }}</span>
+                                    <br>
+                                    <span>PHONE NO:{{i.phone }}</span>
+                                    <br>
+                                    <span>EMAIL:{{ i.email}}</span>
+                                    <br>
+                                    <span>ADDRESS:{{ i.address}}</span>
+                                    <br>
+                                    <span>DISTRICT:{{ i.disrtrict}}</span>
+                                    <br>
+                                    <span>CITY:{{ i.city}}</span>
+                                    <br>
+                                    <span>PINCODE:{{ i.pincode}}</span>
+                                    <a href="{%url 'edit_address' edit_id=i.id  %}" type="submit" class="tp_btn">edit</a>
+                                    <br>
+                                    <br>
+                                    <a href="{%url 'delete_address' delete_ads_id=i.id %}" type="submit" class="btn btn-light btn-sm rounded font-sm mr-5 text-body hover-up">DELETE</a>
+                                   </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="order_box">
+                <h2>Your Order</h2>
+                <ul class="list">
+                  <li>
+                    <a href="#">Product
+                      <span>Total</span>
+                    </a>
+                  {% for cart_item in cart_items %}
+                  </li>
+                  <li>
+                    {% if cart_item.product.offerr or cart_item.product.cateogary.offerr %}
+
+                    <a href="#">{{cart_item.product.product_name }}
+                      *
+                    {% else %}
+                    <a href="#">{{cart_item.product.product_name }}
+                    {% endif %}
+                      <span class="middle">{{cart_item.quandity}}</span>
+                    {% if cart_item.product.offerr %}
+                      <span class="last">{{cart_item.sub_total_with_offer }}</span>
+                     {% elif cart_item.product.cateogary.offerr %}
+                     <span class="last">{{ cart_item.sub_total_with_offer_category }}</span>
+                     {% else %}
+                     <span class="last">{{cart_item.sub_total }}</span>
+                     {% endif %}
+                    </a>
+                  </li>
+                  {% endfor %}
+                <ul class="list list_2">
+                
+                  <li>
+                    <a href="#">Shipping
+                      <span>{{shipping}}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">Subtotal
+                      <span>{{grandtotal}}</span>
+                    </a>
+                  </li>
+                 <li>
+                    <a href="#">coupon
+                      <span>{{ coupon_discount}}</span>
+                    </a>
+                  </li> 
+                  <li>
+                    <a href="#"> Grand Total
+                      <span>{{ full_total}}</span>
+                    </a>
+                  </li>
+                </ul>
+                <br>
+                {% comment %} <div class="payment_item">
+                  <label for="paymentMethod">Select Payment Method:</label>
+                  <br>
+                  <br>
+                  <select id="paymentMethod" name="paymentMethod">
+                    <option value="cash">Cash on Delivery</option>
+                    <option  value="paypal">Razorpay</option>
+                  </select> 
+                <div class="creat_account">
+                  <input type="checkbox" id="f-option4" name="selector" />
+                  <label for="f-option4"> </label>
+                </div> {% endcomment %}
+              
+              <div id="payment" class="payment_item">
+                <button type="submit" class="button alt" name="paymentMethod" value="COD">Cash on Delivery</button>
+                <br>
+                <br>
+                <br>
+                <button type="button" class="button alt mt-3 paywithRazorpay" data-proceed-url="{% url 'proceed_to_pay' %}" name="paymentMethod" value="Razorpay">Razorpay</button>
+                <br>
+                <br>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+   </section>
+{% endblock content %}   
+
+
+{% block scripts %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<!-- Include your JavaScript file at the bottom of the body -->
+<script src='static/assets/js/checkout.js'  data-place-order-url="{% url 'place_order' %}"></script>
+<script src='static/assets/js/checkout.js'  data-order-details-url="{% url 'order_deatils' %}"></script>
+
+
+{% endblock scripts %}

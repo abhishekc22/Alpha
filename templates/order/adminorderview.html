@@ -1,0 +1,74 @@
+{% extends 'dashboard/adminbase.html' %}
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">user order details</h2>
+            <br>
+            
+        </div>
+        <div>
+            <input type="text" placeholder="Search order ID" class="form-control bg-white" />
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 col-md-6 me-auto">
+                    <input type="text" placeholder="Search..." class="form-control" />
+                </div>
+                <div class="col-lg-2 col-6 col-md-3">
+                    <select class="form-select">
+                        <option>Status</option>
+                        <option>Active</option>
+                        <option>Disabled</option>
+                        <option>Show all</option>
+                    </select>
+                </div>
+                
+            </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#ID</th>
+                            <th scope="col">product Name</th>
+                            <th scope="col">quantity</th>
+                            <th scope="col">price</th>
+                            <th scope="col">image</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in order %}
+                        <tr>
+                            <td>{{c.id}}</td>
+                            <td><b>{{c.product.product_name}}</b></td>
+                            <td><b>{{c.qunadity}}</b></td>
+                            {% if c.product.offerr and c.product.offerr.name != 'none' %}
+                            <td><b>{{c.sub_total_with_offer}}</b></td>
+                            {% elif c.product.cateogary.offerr and c.product.cateogary.offerr.name  != 'none' %}
+                            <td><b>{{c.sub_total_with_offer_category}}</b></td>
+                            {% else %}
+                            <td><b>{{c.sub_total}}</b></td>
+                            {% endif %}
+                            {% if c.product.image1 %}
+                            <td><div style="width: 60px;" class="overflow-hidden">
+                                <img class="w-100" src="{{c.product.image1.url}}"alt="">
+                            </div></td>
+                            {% endif %}
+           
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- table-responsive //end -->
+        </div>
+        <!-- card-body end// -->
+    </div>
+</section>
+{% endblock content%}

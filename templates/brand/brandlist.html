@@ -1,0 +1,80 @@
+{% extends 'dashboard/adminbase.html' %}
+{% block content%}
+<!-- Template for Adding Category Modal -->
+<div class="modal fade" id="addbrand" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- ... Modal content ... -->
+</div>
+
+<!-- Main Content Section -->
+<section class="content-main">
+    <div class="content-header">
+        <!-- ... Content header ... -->
+    </div>
+    <div class="col-2">
+    <div class="row">
+        <a class="btn btn-sm btn-primary" href="{%url 'add_brand' %}">Create brand</a></div>
+    </div>
+</div>
+<br>
+<br>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <!-- Form to Add brand -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <!-- ... Form fields for adding category ... -->
+                    </form>
+                <!-- Table to Display Categories -->
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        <!-- ... Checkbox ... -->
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for c in brand %}
+                                <tr>
+                                    <td class="text-center">
+                                        <!-- ... Checkbox ... -->
+                                    </td>
+                                    <td>{{ c.id }}</td>
+                                    <td><b>{{ c.brand_name }}</b></td>
+                                    <td>{{ c.brand_discription }}</td>
+                                    <td>
+                                        {% if c.brand_image %}
+                                        <div style="width: 60px;" class="overflow-hidden">
+                                            <img class="w-100" src="{{c.brand_image.url}}"alt="">
+                                        </div>
+                                        {% endif %}
+                                        <td><a href="{%url 'edit_brand' brand_id=c.id %}" class="btn btn-md rounded font-sm" role="button">edit</a></td>
+                                        <td><a href="{%url 'delete_brand' c.id %}" class="btn btn-md rounded font-sm"role="button">Delete</a></td>
+                                    </td>
+                                    <td class="text-end">
+                                        <!-- ... Edit Modal ... -->
+                                        <!-- ... Delete Modal ... -->
+                                    </td>
+                                 </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- .col// -->
+            </div>
+            <!-- .row // -->
+        </div>
+        <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+</section>
+{% endblock content %}

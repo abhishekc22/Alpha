@@ -1,0 +1,99 @@
+{% extends 'dashboard/adminbase.html' %}
+{% block content%}
+<!-- Template for Adding Category Modal -->
+<div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- ... Modal content ... -->
+</div>
+
+<!-- Main Content Section -->
+<section class="content-main">
+    <div class="content-header">
+        <!-- ... Content header ... -->
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <a class="btn btn-sm btn-primary" href="{% url 'create_cateogary' %}">Create cateogary</a>
+        </div>
+    </div>
+    <br> 
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <!-- Form to Add Category -->
+                <!-- Table to Display Categories -->
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        <!-- ... Checkbox ... -->
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>offer</th>
+                                    <th>Image</th>
+                                    <th>status</th>
+                                    <th></th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for c in cateogary %}
+                                <tr>
+                                    <td class="text-center">
+                                        <!-- ... Checkbox ... -->
+                                    </td>
+                                    <td>{{ c.id }}</td>
+                                    <td><b>{{ c.cateogary_name }}</b></td>
+                                    <td>{{ c.discription }}</td>
+                                    <td>{{ c.offerr }}</td>
+                                    <td>
+                                        {% if c.cateogary_image %}
+                                        <div style="width: 60px;" class="overflow-hidden">
+                                            <img class="w-100" src="{{c.cateogary_image.url}}"alt="">
+                                        </div>
+                                        {% endif %}
+
+                                       
+                                          {% if c.is_active %}
+                                            <td>active</td>
+                                            <td><a href="{% url 'block_cateogary' c.id %}"class="btn btn-md rounded font-sm" role="button">block</a></td>
+                                          {% else %}
+                                            <td>Nonactive</td>
+                                            <td><a href="{% url 'block_cateogary' c.id %}"class="btn btn-md rounded font-sm" role="button">unblock</a></td>
+                                          {% endif %}
+                                          <td><a href="{% url 'edit_cateogary' cateogary_id=c.id %}" class="btn btn-md rounded font-sm" role="button">edit</a></td>
+                                        {% comment %} <td><a href="{% url 'delete_cateogary' c.id %}"class="btn btn-md rounded font-sm" role="button">Delete</a></td> {% endcomment %}
+    
+                                       <td class="text-end">
+                                        <!-- ... Edit Modal ... -->
+                                        <!-- ... Delete Modal ... -->
+                                    </td>
+                                 </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- .col// -->
+            </div>
+            <!-- .row // -->
+        </div>
+        <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+</section>
+
+{% comment %} 
+<style>
+    .btn.btn-primary {
+        width:
+        padding: 5px 10px; /* Adjust padding as needed */
+        font-size: 14px; /* Adjust font size as needed */
+        /* You can add more styles here if needed */
+    }
+</style> {% endcomment %}
+{% endblock content %}

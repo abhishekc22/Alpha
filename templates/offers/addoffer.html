@@ -1,0 +1,117 @@
+{% extends 'dashboard/adminbase.html' %}
+
+{% block content  %}
+<section class="content-main">
+    <div class="row">
+        <div class="col-6">
+            <div class="content-header">
+                <h2 class="content-title">Add offer</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                
+                        </div>
+                <form method="POST" action="#">
+                    {% csrf_token %}
+                    {% for message in messages %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                    {% endfor %}
+                        <div class="col-md-9">
+                            {% comment %} <div class="mb-4">
+                                <h6>1.productname</h6>
+
+                        
+                                
+                                <select class="form-select" name="variant_name" required>
+                                    {% for i in products %}
+                                    <option value="{{i.id}}">{{ i.product_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                
+                            </div>  {% endcomment %}
+
+
+
+                            {% comment %} <div class="mb-4">
+                                <label class="form-label">Brand name</label>
+                                <select class="form-select">
+                                    <option> Adidas </option>
+                                    <option> Nike </option>
+                                    <option> Puma </option>
+                                </select>
+                            </div> {% endcomment %}
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <hr class="mb-4 mt-0">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>1.name</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <input type="text" placeholder="$00.0" class="form-control" name='offername'>
+                            </div>
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>2.percentage</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <input type="text" placeholder="numbers" class="form-control"name='offer_percentage'>
+                            </div>
+                        </div> <!-- col.// -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>3.start_date</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <input type="date" placeholder="numbers" class="form-control"name='start_date'>
+                            </div>
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>4.end_date</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <input type="date" placeholder="numbers" class="form-control"name='end_date'>
+                            </div>
+                        </div> <!-- col.// -->
+                    </div>
+                    <hr class="mb-4 mt-0">
+                    <div class="row">
+                        <div class="col-md-9">
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    {% comment %} <hr class="mb-4 mt-0">
+                            <h6>8. Image 3</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <input class="form-control" type="file" name='product_image3' accept="image/*">
+                            </div>
+                        </div> {% endcomment %}
+                        <button type="submit" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save</button>
+                    </div> 
+                </form>  
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+</section>
+{% endblock content %}
