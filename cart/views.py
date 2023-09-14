@@ -14,6 +14,8 @@ from decimal import Decimal
 from django.http import JsonResponse
 
 
+
+
 # def adding_cart(request,variation_id):
 #     print('heloolkncsldvk')
 #     variant=get_object_or_404(Variation, id=variation_id)
