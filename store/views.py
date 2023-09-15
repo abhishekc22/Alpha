@@ -26,7 +26,6 @@ def product_display(request):
             variation__isnull=False
         ).distinct()
 
-
     sort_by = request.GET.get('sort')
     selected_category_id = request.GET.get('category')
     selected_brand_id = request.GET.get('brand') 
@@ -62,7 +61,6 @@ def product_display(request):
     }
 
     return render(request, 'shop/product.html', context)
-
 
 
 # admin side
