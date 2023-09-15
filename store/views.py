@@ -8,33 +8,57 @@ from brand.models import brand
 from variation.models import Variation
 from django.http import JsonResponse
 from offers . models import Offer
+from brand . models import brand
+
 
 
 
 # user side
 # @login_required(login_url='userlogin')
 def product_display(request):
-   
-    search_query = request.GET.get('q', '')  # Default to an empty string if no query is provided
 
-    # Fetch products based on the search query or display all products
-    if search_query:
-        products = product.objects.filter(
-            cateogary__is_active=True,
-            is_available=True,
-            variation__isnull=False,
-            product_name__icontains=search_query  # Adjust the field for your product name
-        ).distinct()
-    else:
-        products = product.objects.filter(
+    categories=cateogary.objects.all()
+    print(categories,'-------------')
+    brands=brand.objects.all()
+    products = product.objects.filter(
             cateogary__is_active=True,
             is_available=True,
             variation__isnull=False
         ).distinct()
 
+
+    sort_by = request.GET.get('sort')
+    selected_category_id = request.GET.get('category')
+    selected_brand_id = request.GET.get('brand') 
+    search_query = request.GET.get('search_query')
+
+    if search_query:
+        products = products.filter(product_name__icontains=search_query)
+ 
+
+
+    try:
+
+        selected_category_id = int(selected_category_id)
+        if selected_category_id:
+            products = products.filter(cateogary_id=selected_category_id)
+    except (TypeError, ValueError):
+        # Handle the case where selected_category_id is not a valid integer
+        # You can choose to do something here, like setting it to a default value or showing an error message.
+        pass
+    if selected_brand_id: 
+        products = products.filter(brand_id=selected_brand_id)    
+
+    if sort_by == 'latest-product':
+        products = products.order_by('-id')
+      
+    else:
+        pass    
+    
     context = {
         'products': products,
-        'search_query': search_query,  # Pass the search query back to the template for display
+        'categories':categories,
+        'brands':brands
     }
 
     return render(request, 'shop/product.html', context)

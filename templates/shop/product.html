@@ -1,5 +1,56 @@
 {% extends 'base.html' %}
 {% block content%}
+<style>
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-btn {
+      background-color: #261919;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #c6b6b6;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgb(10 234 137 / 54%);
+      z-index: 1;
+    }
+    .dropdown-content1 {
+      
+      border-radius: 3px;
+      background-color:#e9ecef;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(205, 218, 212, 0.54);
+      z-index: 1;
+    }
+    
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .dropdown-content a:hover {
+      background-color: #331e1e;
+    }
+    
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .custom-select-label{
+        background-color: #261919;
+        font-style: normal;
+        color: aliceblue;
+        padding: 2px;
+    }
+    </style>
 <main>
     <!-- Hero Area Start-->
     <div class="slider-area ">
@@ -20,31 +71,42 @@
     <section class="popular-items latest-padding">
         <div class="container">
             <div class="row product-btn justify-content-between mb-40">
-                <div class="properties__button">
-                    <!--Nav Button  -->
-                    <nav>                                                      
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">NewestArrivals</a>
-                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"> Price high to low</a>
-                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false"> Most populer </a>
-                        </div>
-                    </nav>
-                    <!--End Nav Button  -->
+                <div class="dropdown">
+                    <button class="dropdown-btn">
+                        <span>Sort By</span>
+                        <span class="arrow"></span>
+                    </button>
+                    <ul class="dropdown-content">
+                        <li><a href="{% url 'product_display' %}?sort=latest-product">latest product</a></li>
+                        {% comment %} <li><a href="{% url 'product_display' %}?sort=low_to_high">Price low to high</a></li> {% endcomment %}
+                    </ul>
                 </div>
-                <!-- Grid and List view -->
-                <div class="grid-list-view">
-                </div>
-                <!-- Select items -->
-                <div class="select-this">
-                    <form action="#">
-                        <div class="select-itms">
-                            <select name="select" id="select1">
-                                <option value="">40 per page</option>
-                                <option value="">50 per page</option>
-                                <option value="">60 per page</option>
-                                <option value="">70 per page</option>
-                            </select>
-                        </div>
+                <br>
+                <div class="custom-select-container">
+                    <form action="#" method="get">
+                        <label for="select1" class="custom-select-label">Category:</label>
+                        <select class="dropdown-content1" name="category" id="select1">
+                            <option>Select a category</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.cateogary_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div> </div>
+                        <label for="select2" class="custom-select-label">Brand:</label>
+                        <select name="brand" class="dropdown-content1" id="select2">
+                            <option value="">Select a Brand</option>
+                            {% for brand in brands %}
+                            <option value="{{ brand.id }}">{{ brand.brand_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control" placeholder="Search" name="search_query">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-sm" type="submit" style="font-size: 12px; padding: 5px 10px;">Search</button>
+                            </div>
+                        </div> 
+                        <br>
+                        <button class="dropdown-btn" type="submit">Filter</button>
                     </form>
                 </div>
             </div>

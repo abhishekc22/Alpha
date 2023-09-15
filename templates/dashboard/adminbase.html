@@ -146,16 +146,16 @@
             <header class="main-header navbar">
                 <div class="col-search">
                     <form class="searchform">
-                        <div class="input-group">
-                            <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
-                            <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
-                        </div>
+                        {% comment %} <div class="input-group">
+                             <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                             <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+                        </div> {% endcomment %}
                         <br>
                         <div class="col-4">
                             <a class="btn btn-sm btn-primary" href="{%url 'product_display' %}">BACK</a>
                         </div>
                         <datalist id="search_terms">
-                            <option value="Products"></option>
+                            <option value="useradmin.html"></option>
                             <option value="New orders"></option>
                             <option value="Apple iphone"></option>
                             <option value="Ahmed Hassan"></option>
