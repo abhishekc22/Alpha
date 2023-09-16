@@ -21,9 +21,12 @@ def product_display(request):
     print(categories,'-------------')
     brands=brand.objects.all()
     products = product.objects.filter(
-            cateogary__is_active=True,
             is_available=True,
         ).distinct()
+    # products = product.objects.filter(
+    #         cateogary__is_active=True,
+    #         is_available=True,
+    #     ).distinct()  
 
     sort_by = request.GET.get('sort')
     selected_category_id = request.GET.get('category')
