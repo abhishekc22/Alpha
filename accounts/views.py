@@ -10,6 +10,13 @@ from django.core.validators import validate_email
 from django.views.decorators.cache import cache_control
 from django.contrib.auth.decorators import login_required
 
+
+
+
+def handler404(request, exception):
+    return render(request, '404page.html', status=404)
+
+
 def home(request):
     
     return render(request,'home.html')
@@ -208,6 +215,7 @@ def userlogin(request):
             return redirect('userlogin')
 
     return render(request, 'accounts/userlogin.html')
+
 
 @login_required(login_url='userlogin')
 def userlogout(request):

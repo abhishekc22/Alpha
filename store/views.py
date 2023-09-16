@@ -125,7 +125,6 @@ def add_product(request):
 def product_list(request):
     if not request.user.is_superuser:
         return redirect('home')
-    # pro=product.objects.filter(is_available=True).order_by('id')
     pro=product.objects.filter(cateogary__is_active=True,is_available=True).order_by('id')
     context={
         'prod':pro,
