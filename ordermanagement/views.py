@@ -46,9 +46,7 @@ def place_order(request):
         quandity=0
         total=0
         for item in cart_items:
-        #     total_price+=(item.variation.price*item.quandity)
-        # grand_total=shipping+total_price
-        # neworder.toatal_price=grand_total
+
             if item.product.offerr and item.product.offerr.name != "none" :
                 total+=item.sub_total_with_offer()
             elif item.product.cateogary.offerr and  item.product.cateogary.offerr.name != "none":

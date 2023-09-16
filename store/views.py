@@ -9,7 +9,7 @@ from variation.models import Variation
 from django.http import JsonResponse
 from offers . models import Offer
 from brand . models import brand
-
+from django.core.paginator import Paginator,EmptyPage
 
 
 
@@ -23,7 +23,6 @@ def product_display(request):
     products = product.objects.filter(
             cateogary__is_active=True,
             is_available=True,
-            variation__isnull=False
         ).distinct()
 
     sort_by = request.GET.get('sort')
@@ -42,8 +41,6 @@ def product_display(request):
         if selected_category_id:
             products = products.filter(cateogary_id=selected_category_id)
     except (TypeError, ValueError):
-        # Handle the case where selected_category_id is not a valid integer
-        # You can choose to do something here, like setting it to a default value or showing an error message.
         pass
     if selected_brand_id: 
         products = products.filter(brand_id=selected_brand_id)    
@@ -52,7 +49,16 @@ def product_display(request):
         products = products.order_by('-id')
       
     else:
-        pass    
+        pass  
+
+    page_number =request.GET.get('page', 1) 
+    items_per_page = 6  # Set the number of items to display per page
+    paginator = Paginator(products, items_per_page)
+
+    try:
+        products = paginator.page(page_number)
+    except EmptyPage:
+        products = paginator.page(1)  # Display the   
     
     context = {
         'products': products,

@@ -139,6 +139,37 @@
                     {% endfor %}
                    
                     </div>
+                   
+        <!-- Pagination -->
+        <div class="pagination">
+            <ul class="pagination justify-content-center">
+                {% if products.has_previous %}
+                    <li class="page-item">
+                        <a href="?page=1" class="page-link visually-hidden">&laquo; first</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ products.previous_page_number }}" class="page-link visually-hidden">previous</a>
+                    </li>
+                {% endif %}
+                
+                <li class="page-item disabled">
+                    <span class="page-link current-page">{{ products.number }}</span>
+                </li>
+                
+                {% if products.has_next %}
+                    <li class="page-item">
+                        <a href="?page={{ products.next_page_number }}" class="page-link visually-hidden">next</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ products.paginator.num_pages }}" class="page-link visually-hidden">last &raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <!-- End Pagination -->
+
+
+
                 </div>
             </div>
             <!-- End Nav Card -->
