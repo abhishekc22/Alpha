@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import brand
-
+import re 
 
 # Create your views here.
 @login_required(login_url='userlogin')
@@ -14,29 +14,37 @@ def brand_list(request):
 
 
 
+
 @login_required(login_url='userlogin')
 def add_brand(request):
     if not request.user.is_superuser:
-        return render(request,'home.html')
-    if request.method=='POST':
-        nme=request.POST['brand']
-        description=request.POST['description']
-        img=request.FILES.get('image')
+        return render(request, 'home.html')
+    if request.method == 'POST':
+        nme = request.POST['brand']
+        description = request.POST['description']
+        img = request.FILES.get('image')
 
-        #validation
-        if nme.strip() =='':
-            messages.error(request,'name is not valid')
-            return render(request,'brand/addbrand.html')
+        # Regular expression for validation
+        name_pattern = r'^[A-Za-z]+$'  # Only English letters
+
+        if not nme:
+            messages.error(request, 'Name must be provided')
+            return render(request, 'brand/addbrand.html')
+
+        if not re.match(name_pattern, nme):
+            messages.error(request, 'Name must contain English ')
+            return render(request, 'brand/addbrand.html')
+
         if brand.objects.filter(brand_name=nme).exists():
-            messages.error(request,'the name is still existing')
-            return render(request,'brand/addbrand.html')
-        
-        #save
-        brands=brand( brand_name=nme, brand_discription=description,brand_image=img)
+            messages.error(request, 'The name already exists')
+            return render(request, 'brand/addbrand.html')
+
+        # Save
+        brands = brand(brand_name=nme, brand_discription=description, brand_image=img)
         brands.save()
         return redirect('brand_list')
 
-    return render(request,'brand/addbrand.html')
+    return render(request, 'brand/addbrand.html')
 
 
 

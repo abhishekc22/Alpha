@@ -6,7 +6,7 @@ from ordermanagement .models import order,oreder_item
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-
+import re
 # Create your views here.
 
 
@@ -19,27 +19,40 @@ def add_offer(request):
         start_date = request.POST['start_date']
         end_date = request.POST['end_date']
 
+        # Regular expressions for validation
+        name_pattern = r'^[A-Za-z ]+$' 
+        percentage_pattern = r'^\d+$'  # Only numbers
 
-        if percentage == '':
-            messages.error(request,'percentage must add')
+        if not name:
+            messages.error(request, 'Name must be provided')
             return redirect(add_offer)
 
-
-        if start_date == '' or end_date == '':
-            messages.error(request,'Give date first')
+        if not re.match(name_pattern, name):
+            messages.error(request, 'Name must contain English ')
             return redirect(add_offer)
-        
+
+        if not re.match(percentage_pattern, percentage):
+            messages.error(request, 'Percentage must contain numbers only')
+            return redirect(add_offer)
+
+        if not percentage:
+            messages.error(request, 'Percentage must be provided')
+            return redirect(add_offer)
+
+        if not start_date or not end_date:
+            messages.error(request, 'Both start date and end date must be provided')
+            return redirect(add_offer)
 
         offer = Offer.objects.create(
-            name = name,
-            off_percent = percentage,
-            start_date = start_date,
-            end_date = end_date,
+            name=name,
+            off_percent=percentage,
+            start_date=start_date,
+            end_date=end_date,
         )
         offer.save()
-        messages.success(request,f'Offer "{name}" created')
+        messages.success(request, f'Offer "{name}" created')
         return redirect('offerlist')
-    return render(request,'offers/addoffer.html')
+    return render(request, 'offers/addoffer.html')
 
 
 def offerlist(request):

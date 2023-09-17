@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from offers . models import Offer
 from brand . models import brand
 from django.core.paginator import Paginator,EmptyPage
-
+import re 
 
 
 # user side
@@ -79,50 +79,53 @@ def add_product(request):
     if not request.user.is_superuser:
         return redirect('home')
     
-    cateogaries=cateogary.objects.all()
-    brands=brand.objects.all()
-    offers=Offer.objects.all()
+    cateogaries = cateogary.objects.all()
+    brands = brand.objects.all()
+    offers = Offer.objects.all()
 
-    if request.method=='POST':
-        name=request.POST['Product_name']
-        # price=request.POST['product_price']
-        description=request.POST['product_description']
-        # stock=request.POST['product_stock']
-        cateogary_id=request.POST.get('product_category')
-        brand_id=request.POST.get('product_brand')
-        offer_id=request.POST.get('offer')
+    if request.method == 'POST':
+        name = request.POST['Product_name']
+        description = request.POST['product_description']
+        cateogary_id = request.POST.get('product_category')
+        brand_id = request.POST.get('product_brand')
+        offer_id = request.POST.get('offer')
 
-        img1=request.FILES.get('product_image1')
-        img2=request.FILES.get('product_image2')
-        img3=request.FILES.get('product_image3')
+        img1 = request.FILES.get('product_image1')
+        img2 = request.FILES.get('product_image2')
+        img3 = request.FILES.get('product_image3')
 
+        # Regular expression for validation
+        name_pattern = r'^[A-Za-z]+$'  # Only English letters
 
-        if name == ''  :
-            messages.error(request,'name or price field is empty')
+        if not name:
+            messages.error(request, 'Product name must be provided')
             return redirect('add_product')
-        
-        cate=cateogary.objects.get(id=cateogary_id) 
-        brands=brand.objects.get(id=brand_id)
-        off=Offer.objects.get(id=offer_id)
 
-        if not img1 and  not img2 and not img3:
-            messages.error(request,'images not uploades') 
+        if not re.match(name_pattern, name):
+            messages.error(request, 'Product name must contain English')
             return redirect('add_product')
-        
+
+        cate = cateogary.objects.get(id=cateogary_id) 
+        brands = brand.objects.get(id=brand_id)
+        off = Offer.objects.get(id=offer_id)
+
+        if not img1 and not img2 and not img3:
+            messages.error(request, 'Images not uploaded') 
+            return redirect('add_product')
+
         if product.objects.filter(product_name=name).exists():
-            messages.error(request,'the name is alredy exists')
+            messages.error(request, 'The name already exists')
             return redirect('add_product')
-        
 
-        # save
+        # Save
         slug = slugify(name)
 
-        produ=product(product_name=name,description=description,image1=img1,image2=img2,image3=img3,cateogary=cate,brand=brands,offerr=off,slug=slug)
+        produ = product(product_name=name, description=description, image1=img1, image2=img2, image3=img3, cateogary=cate, brand=brands, offerr=off, slug=slug)
         produ.save()
-       
 
         return redirect('product_list')
-    return render(request,'shop/addproduct.html',{'cateogaries':cateogaries,'brands':brands,'offer':offers})
+
+    return render(request, 'shop/addproduct.html', {'cateogaries': cateogaries, 'brands': brands, 'offer': offers})
 
 
 @login_required(login_url='userlogin')
@@ -140,67 +143,69 @@ def product_list(request):
 
 #product editing
 
-
 @login_required(login_url='userlogin')
-def edit_product(request,edit_product_id):
-    pro=product.objects.get(id=edit_product_id)
-    cateogaries=cateogary.objects.all()
-    brands=brand.objects.all()
-    offers=Offer.objects.all()
+def edit_product(request, edit_product_id):
+    pro = product.objects.get(id=edit_product_id)
+    cateogaries = cateogary.objects.all()
+    brands = brand.objects.all()
+    offers = Offer.objects.all()
     if not request.user.is_superuser:
         return redirect('home')
-    
-    if request.method=='POST':
-        pname=request.POST['Product_name']
-        pdescription=request.POST['product_description']
-        cateogary_id=request.POST.get('product_category')
-        brand_id=request.POST.get('product_brand')
-        offer_id=request.POST.get('offer')
 
+    if request.method == 'POST':
+        pname = request.POST['Product_name']
+        pdescription = request.POST['product_description']
+        cateogary_id = request.POST.get('product_category')
+        brand_id = request.POST.get('product_brand')
+        offer_id = request.POST.get('offer')
 
-        img2=request.FILES.get('product_image2')
-        img3=request.FILES.get('product_image3')
-
+        img2 = request.FILES.get('product_image2')
+        img3 = request.FILES.get('product_image3')
 
         try:
-            pro=product.objects.get(id=edit_product_id) 
-            img1=request.FILES.get('product_image1')
-            if img1 and img2 and img3 :
-                pro.image1=img1
-                pro.image2=img2
-                pro.image3=img3
+            pro = product.objects.get(id=edit_product_id)
+            img1 = request.FILES.get('product_image1')
+            if img1 and img2 and img3:
+                pro.image1 = img1
+                pro.image2 = img2
+                pro.image3 = img3
                 pro.save()
         except product.DoesNotExist:
-            messages.error(request,'given product not found')  
-            return redirect('edit_product',edit_product_id)
-        if pname =='':
-            messages.error(request,'name or price fields are empty')
-            return redirect('edit_product',edit_product_id) 
-  
-        
-        if product.objects.filter(product_name=pname).exists():
-            pro=product.objects.get(id=edit_product_id)
-            if pname==pro.product_name:
-                pass
-            else:
-                messages.error(request,'product name is alredy exists')
-                return redirect('edit_product')
-        cate=cateogary.objects.get(id=cateogary_id)
-        brands=brand.objects.get(id=brand_id)
-        offers=Offer.objects.get(id=offer_id)
+            messages.error(request, 'Given product not found')
+            return redirect('edit_product', edit_product_id)
 
-        #updating product value with new value
-       
-        pro=product.objects.get(id=edit_product_id)
-        pro.product_name=pname
-        pro.description=pdescription
-        pro.cateogary=cate
-        pro.brand=brands
-        pro.offerr=offers
-        
-        pro.save()  
+        # Regular expression for validation
+        name_pattern = r'^[A-Za-z]+$'  # Only English letters
+
+        if not pname:
+            messages.error(request, 'Product name must be provided')
+            return redirect('edit_product', edit_product_id)
+
+        if not re.match(name_pattern, pname):
+            messages.error(request, 'Product name must contain English ')
+            return redirect('edit_product', edit_product_id)
+
+        if product.objects.filter(product_name=pname).exclude(id=edit_product_id).exists():
+            messages.error(request, 'The name already exists')
+            return redirect('edit_product', edit_product_id)
+
+        cate = cateogary.objects.get(id=cateogary_id)
+        brands = brand.objects.get(id=brand_id)
+        offers = Offer.objects.get(id=offer_id)
+
+        # Updating product values with new values
+
+        pro = product.objects.get(id=edit_product_id)
+        pro.product_name = pname
+        pro.description = pdescription
+        pro.cateogary = cate
+        pro.brand = brands
+        pro.offerr = offers
+
+        pro.save()
         return redirect('product_list')
-    return render(request,'shop/editproduct.html',{'pro':pro,'cateogaries':cateogaries,'brand':brands,'offer':offers})
+
+    return render(request, 'shop/editproduct.html', {'pro': pro, 'cateogaries': cateogaries, 'brand': brands, 'offer': offers})
 
 
 @login_required(login_url='userlogin')

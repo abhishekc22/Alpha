@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import cateogary
 from django.shortcuts import redirect, get_object_or_404
 from offers . models import Offer
-
+import re 
 
 # Create your views here.
 @login_required(login_url='userlogin')
@@ -17,79 +17,89 @@ def cateogary_list(request):
 
 @login_required(login_url='userlogin')
 def create_cateogary(request):
-    offers=Offer.objects.all()
+    offers = Offer.objects.all()
     if not request.user.is_superuser:
         return redirect('home')
-    if request.method=='POST':
-        name=request.POST['cateogary']
-        description=request.POST['description']
-        off=request.POST.get('offer')
+    if request.method == 'POST':
+        name = request.POST['cateogary']
+        description = request.POST['description']
+        off = request.POST.get('offer')
         image = request.FILES.get('image')
 
-          #validation
+        # Regular expression for validation
+        name_pattern = r'^[A-Za-z]+$'  # Only English letters
 
-        if name.strip() =='':
-            messages.error(request,'name is not valid')
-            return render(request,'dashboard/addcateogary.html')
-        
+        if not name:
+            messages.error(request, 'Category name must be provided')
+            return render(request, 'dashboard/addcateogary.html', {'offers': offers})
+
+        if not re.match(name_pattern, name):
+            messages.error(request, 'Category name must contain English ')
+            return render(request, 'dashboard/addcateogary.html', {'offers': offers})
+
         if cateogary.objects.filter(cateogary_name=name).exists():
-            messages.error(request,'the name is still existing')
-            return render(request,'dashboard/addcateogary.html')
-        offers=Offer.objects.get(id=off)
-          # save
-        cate=cateogary(cateogary_name=name,discription=description,offerr=offers,cateogary_image = image)
+            messages.error(request, 'The category name already exists')
+            return render(request, 'dashboard/addcateogary.html', {'offers': offers})
+
+        offers = Offer.objects.get(id=off)
+
+        # Save the category
+        cate = cateogary(cateogary_name=name, discription=description, offerr=offers, cateogary_image=image)
         cate.save()
-        return redirect('cateogary_list')    
-    return render(request,'dashboard/addcateogary.html',{'offers':offers})
+        return redirect('cateogary_list')
+
+    return render(request, 'dashboard/addcateogary.html', {'offers': offers})
   
 
 
 @login_required(login_url='userlogin')
-def edit_cateogary(request,cateogary_id):
-    offers=Offer.objects.all()
-    cate=cateogary.objects.get(id=cateogary_id)
+def edit_cateogary(request, cateogary_id):
+    offers = Offer.objects.all()
+    cate = cateogary.objects.get(id=cateogary_id)
+    
     if not request.user.is_superuser:
         return redirect('home')
-    if request.method=='POST':
-        pname=request.POST['cateogary']
-        pdescription=request.POST['description']
-        offers_id=request.POST.get('offers')
-        
-
+    
+    if request.method == 'POST':
+        pname = request.POST['cateogary']
+        pdescription = request.POST['description']
+        offers_id = request.POST.get('offers')
 
         try:
-            cate=cateogary.objects.get(id=cateogary_id) 
+            cate = cateogary.objects.get(id=cateogary_id) 
             image = request.FILES.get('image')
             if image:
-                cate.cateogary_image=image
+                cate.cateogary_image = image
                 cate.save()
         except cateogary.DoesNotExist:
-            messages.error(request,'given product not found')  
-            return redirect('edit_cateogary')
+            messages.error(request, 'Given product not found')  
+            return redirect('edit_cateogary', cateogary_id=cateogary_id)
 
-        
-        if pname.strip() =='':
-            messages.error(request,'name is not valid')
-            return render(request,'dashboard/editcateogary.html',cateogary_id)
-        
-        if cateogary.objects.filter(cateogary_name=pname).exists():
-            cate=cateogary.objects.get(id=cateogary_id)
-            if pname==cate.cateogary_name:
-                pass
-            else:
-                messages.error(request,'the name is still existing')
-                return render(request, 'dashboard/editcateogary.html',cateogary_id)
+        # Regular expression for validation
+        name_pattern = r'^[A-Za-z]+$'  # Only English
 
-        offers=Offer.objects.get(id=offers_id)
-        # updating
-        cate=cateogary.objects.get(id=cateogary_id)
-        cate.cateogary_name=pname
-        cate.discription=pdescription
-        cate.offerr=offers
+        if not pname:
+            messages.error(request, 'Category name must be provided')
+            return render(request, 'dashboard/editcateogary.html', {'cate': cate, 'offers': offers})
+
+        if not re.match(name_pattern, pname):
+            messages.error(request, 'Category name must contain English or no space')
+            return render(request, 'dashboard/editcateogary.html', {'cate': cate, 'offers': offers})
+
+        if cateogary.objects.filter(cateogary_name=pname).exclude(id=cateogary_id).exists():
+            messages.error(request, 'The name is already existing')
+            return render(request, 'dashboard/editcateogary.html', {'cate': cate, 'offers': offers})
+
+        offers = Offer.objects.get(id=offers_id)
+        
+        # Updating
+        cate.cateogary_name = pname
+        cate.discription = pdescription
+        cate.offerr = offers
         cate.save()
         return redirect('cateogary_list')  
     
-    return render(request,'dashboard/editcateogary.html',{'cate': cate,'offers':offers})
+    return render(request, 'dashboard/editcateogary.html', {'cate': cate, 'offers': offers})
 
 
 @login_required(login_url='userlogin')
