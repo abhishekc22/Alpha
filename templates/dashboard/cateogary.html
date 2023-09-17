@@ -58,15 +58,15 @@
                                         {% endif %}
 
                                        
-                                          {% if c.is_active %}
+                                          {% comment %} {% if c.is_active %}
                                             <td>active</td>
                                             <td><a href="{% url 'block_cateogary' c.id %}"class="btn btn-md rounded font-sm" role="button">block</a></td>
                                           {% else %}
                                             <td>Nonactive</td>
                                             <td><a href="{% url 'block_cateogary' c.id %}"class="btn btn-md rounded font-sm" role="button">unblock</a></td>
-                                          {% endif %}
+                                          {% endif %} {% endcomment %}
                                           <td><a href="{% url 'edit_cateogary' cateogary_id=c.id %}" class="btn btn-md rounded font-sm" role="button">edit</a></td>
-                                        {% comment %} <td><a href="{% url 'delete_cateogary' c.id %}"class="btn btn-md rounded font-sm" role="button">Delete</a></td> {% endcomment %}
+                                          <td><a href="{% url 'delete_cateogary' c.id %}"class="btn btn-md rounded font-sm" role="button">Delete</a></td>
     
                                        <td class="text-end">
                                         <!-- ... Edit Modal ... -->

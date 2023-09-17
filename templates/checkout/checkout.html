@@ -78,7 +78,7 @@
                   {% for cart_item in cart_items %}
                   </li>
                   <li>
-                    {% if cart_item.product.offerr or cart_item.product.cateogary.offerr %}
+                    {% if cart_item.product.offerr and cart_item.product.offerr.name != "none" or cart_item.product.cateogary.offerr and cart_item.product.cateogary.offerr.name != "none" %}
 
                     <a href="#">{{cart_item.product.product_name }}
                       *
@@ -86,9 +86,9 @@
                     <a href="#">{{cart_item.product.product_name }}
                     {% endif %}
                       <span class="middle">{{cart_item.quandity}}</span>
-                    {% if cart_item.product.offerr %}
-                      <span class="last">{{cart_item.sub_total_with_offer }}</span>
-                     {% elif cart_item.product.cateogary.offerr %}
+                    {% if cart_item.product.offerr and cart_item.product.offerr.name != "none"%}
+                      <span class="last">{{cart_item.sub_total_with_offer}}</span>
+                     {% elif cart_item.product.cateogary.offerr and cart_item.product.cateogary.offerr.name != "none" %}
                      <span class="last">{{ cart_item.sub_total_with_offer_category }}</span>
                      {% else %}
                      <span class="last">{{cart_item.sub_total }}</span>

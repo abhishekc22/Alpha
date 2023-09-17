@@ -54,7 +54,7 @@
                         <!-- Logo -->
                         <div class="logo">
                             {% comment %} <a href="index.html"><img src="/static/assets/img/logo/logo.png" alt=""></a> {% endcomment %}
-                            <p style="color:blue; font-family: 'Your Font', sans-serif; font-size: 16px; font-weight: bold;">Alpha diamond</p>
+                            <p style="color:black; font-family: 'Your Font', sans-serif; font-size: 16px; font-weight: bold;">Alpha diamond</p>
                         </div>
                         <!-- Main-menu -->
                         <div class="main-menu d-none d-lg-block">
@@ -93,7 +93,7 @@
                                             <li><a href="checkout.html">Product Checkout</a></li>
                                         </ul>
                                     </li> {% endcomment %}
-                                    <li><a href="#">Contact</a>
+                                    {% comment %} <li><a href="#"><span class="flaticon-user"></span></a>
                                         <ul class="submenu">
                                             {% if  not user.is_authenticated %}
                                             <li><a href="{% url 'userlogin' %}">login</a></li>
@@ -102,22 +102,30 @@
                                             <li><a href="{% url 'userlogout' %}">logout</a></li>
                                             {% endif %}
                                         </ul>
-                                    </li>
+                                    </li> {% endcomment %}
                                 </ul>
                             </nav>
                         </div>
                         <!-- Header Right -->
                         <div class="header-right">
-                            <ul>
-                                {% comment %} <li>
-                                    <div class="nav-search search-switch">
-                                        <span class="flaticon-search"></span>
+                            <ul class="nav">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="flaticon-user"></span>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                        {% if not user.is_authenticated %}
+                                        <a class="dropdown-item login-option" href="{% url 'userlogin' %}">Login</a>
+                                        {% else %}
+                                        <a class="dropdown-item logout-option" href="{% url 'userlogout' %}">Logout</a>
+                                        {% endif %}
                                     </div>
-                                </li> {% endcomment %}
-                                <li> <a href="#"><span class="flaticon-user"></span></a>
-
-                                </li>    
-                                <li ><a href="{% url 'cart' %}"><span class="flaticon-shopping-cart">{{cart_count}}</span></a> </li>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'cart' %}">
+                                        <span class="flaticon-shopping-cart">{{ cart_count }}</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

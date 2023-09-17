@@ -150,19 +150,20 @@ def ordercancell(request,order_id):
     user = request.user
     try:
         order_obj = order.objects.get(id=order_id, payment_mode="paid by Razorpay")
+        order_obj.status = 'Cancelled'
+        order_obj.save()
+        order_price = order_obj.toatal_price
+        wallet_obj, created = Wallet.objects.get_or_create(user = user,defaults={'amount':order_price})
+        if not created:
+            wallet_obj.amount += order_price
+            wallet_obj.save()
     except order.DoesNotExist:
-        messages.error(request, "no cancell option for cod")
-        return redirect('order_deatils') 
-    order_obj.status = 'Cancelled'
-    order_obj.save()
-    order_price = order_obj.toatal_price
-
-    wallet_obj, created = Wallet.objects.get_or_create(user = user,defaults={'amount':order_price})
-    if created:
-        pass
-    else:
-        wallet_obj.amount += order_price
-        wallet_obj.save()
+        try:
+            order_obj = order.objects.get(id=order_id, payment_mode="COD")
+            order_obj.status = 'Cancelled'
+            order_obj.save()
+        except order.DoesNotExist:
+            pass
     return redirect('order_deatils')
 
 

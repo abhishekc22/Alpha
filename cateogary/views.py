@@ -92,28 +92,28 @@ def edit_cateogary(request,cateogary_id):
     return render(request,'dashboard/editcateogary.html',{'cate': cate,'offers':offers})
 
 
-# @login_required(login_url='userlogin')
-# def delete_cateogary(request, delete_id):
-#     dele = get_object_or_404(cateogary, id=delete_id)
-#     dele.delete()
-#     return redirect('cateogary_list')
-
-
-
-def block_cateogary(request, block_id):
-    try:
-        block = get_object_or_404(cateogary, id=block_id)
-        if block.is_active:
-            block.is_active =False
-            block.save()
-        else:
-            block.is_active =True
-            block.save()
-        print(f"Updated is_active: {block.is_active}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-    
+@login_required(login_url='userlogin')
+def delete_cateogary(request, delete_id):
+    dele = get_object_or_404(cateogary, id=delete_id)
+    dele.delete()
     return redirect('cateogary_list')
+
+
+
+# def block_cateogary(request, block_id):
+#     try:
+#         block = get_object_or_404(cateogary, id=block_id)
+#         if block.is_active:
+#             block.is_active =False
+#             block.save()
+#         else:
+#             block.is_active =True
+#             block.save()
+#         print(f"Updated is_active: {block.is_active}")
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
+    
+#     return redirect('cateogary_list')
 
 
 

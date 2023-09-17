@@ -22,6 +22,7 @@ def product_display(request):
     brands=brand.objects.all()
     products = product.objects.filter(
             is_available=True,
+            variation__isnull=False,
         ).distinct()
     # products = product.objects.filter(
     #         cateogary__is_active=True,

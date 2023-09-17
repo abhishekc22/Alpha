@@ -72,9 +72,9 @@
             </select> {% endcomment %}
             <div class="select-container">
               <span class="select-label">Select Color:</span>
-              <select class="form-select form-select-sm mb-2 col-3 select-dropdown" name="variant_name" required onchange="updatePrice(this)">
-                  <option value="" disabled selected>SelectColor</option>
-                  {% for variation in products.variation.all %}
+              <select class="form-select form-select-sm mb-2 col-md-3 col-6 select-dropdown" name="variant_name" required onchange="updatePrice(this)">
+                <option value="" disabled selected>Select color</option>
+                {% for variation in products.variation.all %}
                       {% if variation.product.offerr and variation.product.offerr.name != 'none' %}
                           <option value="{{ variation.id }}" data-price="{{ variation.sub_total_with_offer }}">{{ variation.colour }}</option>
                       {% elif variation.product.cateogary.offerr and variation.product.cateogary.offerr.name != 'none' %}
@@ -310,13 +310,14 @@ img {
 <script>
   $(".zoom-image-hover").zoom();
 </script> {% endcomment %}
-<script>
+
+{% comment %} <script>
   function updatePrice(selectElement) {
       const selectedOption = selectElement.options[selectElement.selectedIndex];
       const newPrice = selectedOption.getAttribute('data-price');
       document.getElementById('product-price').textContent = newPrice;
   }
-  </script> 
+  </script>  {% endcomment %}
 
   <script>
     function updatePrice(selectElement) {

@@ -135,7 +135,7 @@
                   {% elif cart_item.product.cateogary.offerr and cart_item.product.cateogary.offerr.name != "none" %}
 						        {{ cart_item.sub_total_with_offer_category }}
                   {% else %}
-                  {{sub_total}}
+                  {{cart_item.sub_total}}
                   {% endif %}
                 </span>
                 </td>
