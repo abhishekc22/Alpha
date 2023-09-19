@@ -185,10 +185,13 @@ def edit_product(request, edit_product_id):
             messages.error(request, 'Product name must contain English ')
             return redirect('edit_product', edit_product_id)
 
-        if product.objects.filter(product_name=pname).exclude(id=edit_product_id).exists():
-            messages.error(request, 'The name already exists')
-            return redirect('edit_product', edit_product_id)
-
+        if product.objects.filter(product_name=pname).exists():
+            pro=product.objects.get(id=edit_product_id)
+            if pname==pro.product_name:
+                pass
+            else:
+                messages.error(request,'product name is alredy exists')
+                return redirect('edit_product',edit_product_id)
         cate = cateogary.objects.get(id=cateogary_id)
         brands = brand.objects.get(id=brand_id)
         offers = Offer.objects.get(id=offer_id)

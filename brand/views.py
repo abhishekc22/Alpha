@@ -74,7 +74,7 @@ def edit_brand(request,brand_id):
                 pass
             else:
                 messages.error(request,'the name is still existing')
-                return render(request,'brand/editbrand.html',id=brand_id)
+                return redirect('edit_brand', brand_id=brand_id)
         
    #updating
      

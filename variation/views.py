@@ -119,9 +119,13 @@ def edit_variation(request, editvariation_id):
             messages.error(request, 'Colour name must contain English l')
             return redirect('edit_variation', editvariation_id)
 
-        if Variation.objects.filter(colour=vcolour).exclude(id=editvariation_id).exists():
-            messages.error(request, 'The colour is already used by another variation')
-            return redirect('edit_variation', editvariation_id)
+        if Variation.objects.filter(colour=vcolour).exists():
+            var=Variation.objects.get(id=editvariation_id)
+            if vcolour==var.colour:
+                pass
+            else:
+                messages.error(request,' colour is alredy exists')
+                return redirect('edit_variation',editvariation_id)
 
         var.product = produ
         var.colour = vcolour
